@@ -11,10 +11,21 @@ function Book(title, author, pages, read){
     this.read = read;
 }
 
+Book.prototype.toggleRead = function() {
+    this.read = !this.read;
+};
+
 function addBookToLibrary(title, author, pages, read){
     const book = new Book(title, author,pages,read);
     myLibrary.push(book);
     return book;
+}
+
+function removeBook(id) {
+    const index = myLibrary.findIndex((book) => book.id === id);
+    if(index !== -1) {
+        myLibrary.splice(index, 1);
+    }
 }
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
@@ -29,6 +40,7 @@ function displayBooks() {
     myLibrary.forEach((book) => {
         const card = document.createElement("div");
         card.classList.add("card");
+        card.dataset.id = book.id;
 
         const title = document.createElement("h2");
         title.textContent = book.title;
@@ -42,7 +54,15 @@ function displayBooks() {
         const status = document.createElement("p");
         status.textContent = book.read ? "Read" : "Not Read yet";
 
-        card.append(title, author, pages, status);
+        const toggleBtn = document.createElement("button");
+        toggleBtn.textContent = book.read? "Mark as unread" : "Mark as read";
+        toggleBtn.classList.add("toggle-btn");
+
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.classList.add("remove-btn")
+
+        card.append(title, author, pages, status, toggleBtn, removeBtn);
         libraryContainer.appendChild(card);
     });
 }
@@ -78,4 +98,24 @@ form.addEventListener("submit", (event) => {
     displayBooks();
 
     dialog.close();
+});
+
+libraryContainer.addEventListener("click", (event) => {
+    const card = event.target.closest(".card"); 
+    /* event.target 实际被点到的元素，比如删除按钮*/
+    /* .closest("card") 从被点的元素往上找，返回最近的.card */
+    if(!card) return;
+
+    const id = card.dataset.id;
+
+    if(event.target.classList.contains("remove-btn")) {
+        removeBook(id);
+        displayBooks();
+    }
+
+    if(event.target.classList.contains("toggle-btn")) {
+        const book = myLibrary.find((book) => book.id === id);
+        book.toggleRead();
+        displayBooks();
+    }
 });
