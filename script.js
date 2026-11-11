@@ -48,3 +48,34 @@ function displayBooks() {
 }
 
 displayBooks();
+
+const newBookBtn = document.querySelector("#new-book-btn");
+const dialog = document.querySelector("#book-dialog");
+const form = document.querySelector("#book-form");
+const cancelBtn = document.querySelector("#cancel-btn");
+
+newBookBtn.addEventListener("click", () =>{
+    dialog.showModal(); /* 以模态方式打开： 背景变暗， 后面点不到， 按 esc会关闭*/
+});
+
+cancelBtn.addEventListener("click", () =>{
+    dialog.close();
+});
+
+dialog.addEventListener("close", () => {
+    form.reset();
+});
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const title = document.querySelector("#title").value.trim();
+    const author = document.querySelector("#author").value.trim();
+    const pages = Number(document.querySelector("#pages").value());
+    const read = document.querySelector("#read").checked;
+
+    addBookToLibrary(title, author, pages, read);
+    displayBooks();
+
+    dialog.close();
+});

@@ -38,3 +38,43 @@ header {
 .card h2 {
     font-size: 1.2rem;
 }
+
+dialog {
+    border: none;
+    border-radius: 8px;
+    padding: 1.5rem;
+    width: min(90%, 400px);
+    margin: auto;
+}
+
+display::backdrop { /*模态弹窗后的那层遮罩*/
+    background: rgba(0,0,0,0.5);
+}
+
+#book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#book-form input[type="text"],
+#book-form input[type="number"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    /* checkbox 和文字同一行，垂直对齐 */
+    gap: 0.5rem;
+}
+
+.form-buttons {
+    display:flex;
+    justify-content: flex-end;
+    /* 两个按钮靠右 */
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
